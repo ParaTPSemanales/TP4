@@ -57,7 +57,7 @@ public class GeneradorDeGrafos {
 	 * @return
 	 * @throws GrafoException
 	 */
-	public static Grafo generarGrafoAleatorioProbabilistico(final int cantNodos, final double probabilidad)
+	public static Grafo generarGrafoAleatorioConProbabilidad(final int cantNodos, final double probabilidad)
 			throws GrafoException {
 		Random r = new Random();
 		MatrizSimetrica matriz = new MatrizSimetrica(cantNodos);
@@ -92,7 +92,7 @@ public class GeneradorDeGrafos {
 	 */
 	public static Grafo generarGrafoRegularGradoN(final int cantNodos, final int grado) throws GrafoException {
 		if (grado >= cantNodos || cantNodos <= 0 || grado < 0)
-			throw new GrafoException("Error en la creacion de un grafo Regular");
+			throw new GrafoException("Error en la creacion de un grafo Regular con grado igual a " + grado);
 		MatrizSimetrica matriz = new MatrizSimetrica(cantNodos);
 		int cantAristas = 0;
 		if (cantNodos % 2 == 0) { // par
@@ -171,7 +171,8 @@ public class GeneradorDeGrafos {
 	}
 
 	/**
-	 * Generador de grafos n-partitos, dados N y n.
+	 * Generador de grafos n-partitos,
+	 * Cantidad de nodos y N partes.
 	 * @param cantNodos
 	 * @param n
 	 * @return

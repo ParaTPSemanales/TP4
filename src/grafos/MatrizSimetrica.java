@@ -77,15 +77,17 @@ public class MatrizSimetrica {
 	 * @param valor
 	 */
 	public void setValor(final int fila,final int col,final boolean valor) {
-		if (fila == col)
-			return;
-		int i;
-		if (fila > col)
-			i = (col * orden) + fila - ((col * col) + (3 * col) + 2) / 2;
-		else
-			i = (fila * orden) + col - ((fila * fila) + (3 * fila) + 2) / 2;
+	
+		if (fila != col) {
+			int posicion;
+			if (fila > col)
+				posicion = (col * orden) + fila - ((col * col) + (3 * col) + 2) / 2;
+			else
+				posicion = (fila * orden) + col - ((fila * fila) + (3 * fila) + 2) / 2;
+			
+			vectorEquivalente[posicion] = valor;
+		}
 		
-		vectorEquivalente[i] = valor;
 	}
 
 	/**
@@ -107,8 +109,8 @@ public class MatrizSimetrica {
 	}
 	
 	
-	public void setValor(int i, boolean val) {
-		vectorEquivalente[i] = val;
+	public void setValor(int posicion, boolean val) {
+		vectorEquivalente[posicion] = val;
 	}
 
 
