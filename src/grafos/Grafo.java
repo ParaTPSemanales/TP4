@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
 
+import resources.GrafoException;
+
 public class Grafo {
 
 	private static final int SECUENCIAL = 1;
@@ -156,7 +158,7 @@ public class Grafo {
 				grMin = temp;
 		}
 		grMin--;
-		System.out.println("GRADOS: \t" + grMax + "\t" + grMin);
+		//System.out.println("GRADOS: \t" + grMax + "\t" + grMin);
 	}
 
 	/**
@@ -331,11 +333,12 @@ public class Grafo {
 		cantColores = 0;
 		for (int i = 0; i < cantNodos; i++) {
 			color = 1;
-			while (!sePuedeColorear(i, color)) {
+			/** Mientras el color no se pueda usar, elijo otro color**/
+			while (!sePuedeColorear(i, color)) 
 				color++;
-			}
+			
 			nodos.get(i).setColor(color);
-			// System.out.println(nodos.get(i).getNumero()+"\t"+nodos.get(i).getGrado());
+
 			if (color > cantColores)
 				cantColores = color;
 		}
@@ -354,7 +357,7 @@ public class Grafo {
 	 */
 	public void colorearPowell() {
 		ordenarGradoDescendente(nodos, 0, nodos.size() - 1);
-		mezclarPorGrado();
+		//mezclarPorGrado();
 		colorearSecuencialAlternativo();
 	}
 
@@ -388,8 +391,8 @@ public class Grafo {
 		boolean sePuede = true;
 		if (nodos.get(indice).getColor() != 0) // si el nodo fue coloreado
 			sePuede = false;
-		while (i < cantNodos) {
-			// Si hay un nodo adyacente con ese color, no se puede colorear.
+		while (i < cantNodos && sePuede) {
+			// Si hay un nodo adyacente con ese color, no se puede colorear. Si el nodo fue coloreado tampoco se puede.
 			if (nodos.get(i).getColor() == color && i != indice) {
 				if (esAdyacente(nodos.get(i).getNumero() - 1, nodos.get(indice).getNumero() - 1))
 					sePuede = false;
@@ -404,18 +407,21 @@ public class Grafo {
 	 */
 	private void mezclarPorGrado() {
 		int i = 0;
-		int inicio = 0, fin = 0;
+		int inicio = 0;
+		int fin = 0;
 		int grado = 0;
 		Nodo aux;
 		Random r = new Random();
 		boolean[] mezclado = new boolean[cantNodos];
+	
 		while (i < cantNodos) {
 			inicio = i;
 			grado = nodos.get(i).getGrado();
-			while (i < cantNodos && nodos.get(i).getGrado() == grado) {
+			while (i < cantNodos && nodos.get(i).getGrado() == grado) 
 				i++;
-			}
+			
 			fin = i;
+			
 			for (int k = inicio; k < (fin - inicio); k++) {
 				int res = r.nextInt(fin - inicio);
 				if (mezclado[k])
@@ -433,6 +439,7 @@ public class Grafo {
 	 * metodo que sirve para validar si la mezcla realizada fue correcta
 	 * 
 	 * @return V o F
+	 * @throws GrafoException 
 	 */
 	private boolean validarMezcla() {
 		int grado = nodos.get(0).getGrado();
@@ -440,9 +447,8 @@ public class Grafo {
 		for (Nodo n : nodos) {
 			if (n.getGrado() != grado) {
 				if (n.getGrado() < grado) {
-					System.out.println("GRAFO MAL MEZCLADO**************************************************");
-
-					System.exit(-1);
+					System.err.println("Error en la mezcla del grafo"); 
+					System.exit(4321);
 				} else
 					grado = n.getGrado();
 			}
@@ -516,12 +522,6 @@ public class Grafo {
 
 	}
 
-	// public void mostrarNodosColoreados(){
-	// System.out.println("Cantidad de colores: " + cantColores );
-	// for(int i=1; i<=cantNodos; i++)
-	// System.out.println( nodos[i].toString() );
-	// }
-	//
 
 	/**
 	 * Que tipo de coloreo se requiere
@@ -556,17 +556,12 @@ public class Grafo {
 		for (int i = 0; i < 10; i++) {
 			colorear(cod_algoritmo);
 			cantColor[cantColores] += 1;
-			if (cantColores < nroCromatico) // me quedo con la menor cantidad de
-											// colores obtenidos hasta el
-			{ // momento.
+			if (cantColores < nroCromatico) 
 				nroCromatico = cantColores;
-			}
+			
 			alterarOrdenNodos();
 		}
 
-		// grabarResumenCaso(pathCaso,cod_algoritmo,cantColor, nroCromatico);
-		// grabarGrafoColoreado(pathCaso,cod_algoritmo,
-		// grafoColoreado,nroCromatico);
 
 	}
 

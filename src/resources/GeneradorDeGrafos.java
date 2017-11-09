@@ -45,7 +45,7 @@ public class GeneradorDeGrafos {
 		if (grafo.esConexo()) {
 			return grafo;
 		} else {
-			throw new GrafoException("Error en la creacion de grafo");
+			throw new GrafoException("Error en la creacion de grafo Aleatorio con porcentaje de adyacencia " + porcAdy);
 		}
 	}
 

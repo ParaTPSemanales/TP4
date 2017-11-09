@@ -1,28 +1,42 @@
 package app;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+
 import grafos.Grafo;
 import resources.GeneradorDeGrafos;
 import resources.GrafoException;
 
 public class App {
 
-	public static void main(String[] args) throws GrafoException {
+	public static void main(String[] args) throws GrafoException, IOException {
     GeneradorDeGrafos gr = new GeneradorDeGrafos();
+    int[] colores = new int[10000];
+    int min = Integer.MAX_VALUE, posicion =0 ;
+    int porcentaje = 50;
+    PrintWriter salida = new PrintWriter(new FileWriter("Estadisticas/Resumenes/ResumenRegularConAdyacencia" +porcentaje+"_Powell.in"));
     
-    Grafo afo = gr.generarGrafoRegularConPorcentajeDeAdyacencia(5, 50);
-	System.out.println("Adyacencia:"+afo.getPorcentajeAdyacencia());
-	System.out.println("--Grafo--");
-	afo.mostrarGrafo();
-	afo.colorear(Grafo.getMatula());
-	
-	System.out.println("--Nodos--");
-	for (int i = 0; i < afo.getCantidadNodos(); i++) {
-		System.out.println("Nodo : " + afo.getNodos().get(i).getNumero() +"\t" + "Color: " +afo.getNodos().get(i).getColor());
+    salida.println("RESUMEN DE COLORES");
+    for (int i = 0; i < 10000; i++) {
+        Grafo afo = gr.generarGrafoRegularConPorcentajeDeAdyacencia(1000, porcentaje);
+    	afo.colorear(Grafo.getPowell());
+    	//salida.println("Datos del Grafo "+ i +" Cantidad Colores: "+ afo.getCantidadColores());
+    	colores[i] = afo.getCantidadColores();
+    	if (colores[i] < min){
+    		min = colores[i];
+    		posicion = i + 1;
+    	}
+    	salida.println("EJECUCION: " +i+ "COLORES: "+afo.getCantidadColores());
 	}
-	
-	System.out.println("--Grados--");
-	for (int i = 0; i < afo.getCantidadNodos(); i++) {
-		System.out.println("Nodo : " + afo.getNodos().get(i).getNumero() +"\t" +"Grado: " +afo.getNodos().get(i).getGrado());
-	}
+    
+   
+    System.out.println("minima cantidad de colores: " + min);
+    System.out.println("Aparecio por primera vez en la ejecucion: " +posicion);
+
+	salida.close();
+
 }
+	
 }
