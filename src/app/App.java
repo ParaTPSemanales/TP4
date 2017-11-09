@@ -16,12 +16,14 @@ public class App {
     int[] colores = new int[10000];
     int min = Integer.MAX_VALUE, posicion =0 ;
     int porcentaje = 50;
-    PrintWriter salida = new PrintWriter(new FileWriter("Estadisticas/Resumenes/ResumenRegularConAdyacencia" +porcentaje+"_Powell.in"));
+    
+    PrintWriter salida = new PrintWriter(new FileWriter("Estadisticas/Resumenes/ResumenRegularConAdyacencia" +porcentaje+"_Secuencial.in"));
     
     salida.println("RESUMEN DE COLORES");
+    long tiempo = System.currentTimeMillis()*1000;
     for (int i = 0; i < 10000; i++) {
         Grafo afo = gr.generarGrafoRegularConPorcentajeDeAdyacencia(1000, porcentaje);
-    	afo.colorear(Grafo.getPowell());
+    	afo.colorear(Grafo.getSecuencial());
     	//salida.println("Datos del Grafo "+ i +" Cantidad Colores: "+ afo.getCantidadColores());
     	colores[i] = afo.getCantidadColores();
     	if (colores[i] < min){
@@ -34,7 +36,8 @@ public class App {
    
     System.out.println("minima cantidad de colores: " + min);
     System.out.println("Aparecio por primera vez en la ejecucion: " +posicion);
-
+    long tiempoFinal = System.currentTimeMillis()*1000 - tiempo;
+    System.out.println("Tiempo usado: "+tiempoFinal);
 	salida.close();
 
 }
