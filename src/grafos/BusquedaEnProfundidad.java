@@ -4,12 +4,12 @@ public class BusquedaEnProfundidad {
 	private boolean[] visitados;    
 	private int count = 0;  
 	
-	public BusquedaEnProfundidad(Grafo grafo, int nodo) {
+	public BusquedaEnProfundidad(GrafoNDNP grafo, int nodo) {
 		visitados = new boolean[grafo.getCantidadNodos()];
 		dfs(grafo,nodo);
 	}
 	
-	private void dfs(Grafo grafo, int nodo) {
+	private void dfs(GrafoNDNP grafo, int nodo) {
        count++;
        visitados[nodo] = true;
        for (int w : grafo.nodosAdyacentesA(nodo)) {

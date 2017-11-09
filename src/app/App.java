@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 
-import grafos.Grafo;
+import grafos.GrafoNDNP;
 import resources.GeneradorDeGrafos;
 import resources.GrafoException;
 
@@ -22,8 +22,8 @@ public class App {
     salida.println("RESUMEN DE COLORES");
     long tiempo = System.currentTimeMillis()*1000;
     for (int i = 0; i < 10000; i++) {
-        Grafo afo = gr.generarGrafoRegularConPorcentajeDeAdyacencia(1000, porcentaje);
-    	afo.colorear(Grafo.getSecuencial());
+        GrafoNDNP afo = gr.generarGrafoRegularConPorcentajeDeAdyacencia(1000, porcentaje);
+    	afo.colorear(GrafoNDNP.getSecuencial());
     	//salida.println("Datos del Grafo "+ i +" Cantidad Colores: "+ afo.getCantidadColores());
     	colores[i] = afo.getCantidadColores();
     	if (colores[i] < min){
