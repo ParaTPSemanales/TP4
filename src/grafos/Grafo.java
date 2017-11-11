@@ -146,7 +146,7 @@ public class Grafo {
 			if (temp > grMax)
 				grMax = temp;
 		}
-		grMax--;
+		//grMax--;
 		grMin = grMax;
 		for (int f = 0; f < cantNodos; f++) {
 			temp = 0;
@@ -157,7 +157,7 @@ public class Grafo {
 			if (temp < grMin)
 				grMin = temp;
 		}
-		grMin--;
+		//grMin--;
 		//System.out.println("GRADOS: \t" + grMax + "\t" + grMin);
 	}
 

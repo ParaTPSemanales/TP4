@@ -126,10 +126,21 @@ public class GeneradorDeGrafos {
 	 * @return
 	 */
 	public static Grafo generarGrafoRegularConPorcentajeDeAdyacencia(final int cantNodos,final int porAdy) {
+//		double grado1 = (porAdy * (cantNodos - 1)) / 100.0;
+//		//Con este nos quedamos
+//		int grado = (int) grado1;
+//		Grafo retorno = null;
+//		if (cantNodos < 1 || grado < 0 || grado >= cantNodos || (cantNodos != 1 && grado == 0)
+//				|| (cantNodos != 2 && grado == 1) || (cantNodos % 2 != 0 && grado % 2 != 0) || (grado -grado1 != 0)) {
+//			System.out.println("no se puede generar el grafo");
+//			return retorno;
+//		}
+		
+		
 		int grado = (porAdy * (cantNodos - 1)) / 100;
 		Grafo retorno = null;
-		if (cantNodos < 1 || grado < 0 || grado >= cantNodos || (cantNodos != 1 && grado == 0)
-				|| (cantNodos != 2 && grado == 1) || (cantNodos % 2 != 0 && grado % 2 != 0)) {
+		if( cantNodos<1 || grado<0 || grado>=cantNodos
+			|| (cantNodos!=1 && grado==0) ||(cantNodos!=2 && grado==1) || (cantNodos%2!=0 && grado%2!=0)) {
 			System.out.println("no se puede generar el grafo");
 			return retorno;
 		}
@@ -166,6 +177,8 @@ public class GeneradorDeGrafos {
 				saltear++;
 			}
 		}
+		
+		
 		retorno = new Grafo(cantNodos, matriz, (cantNodos * grado) / 2, porAdy);
 		return retorno ;
 	}

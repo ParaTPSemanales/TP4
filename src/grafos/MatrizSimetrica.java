@@ -20,15 +20,16 @@ public class MatrizSimetrica {
 	 */
 	public MatrizSimetrica(final int dimension) {
 		this.dimension = dimension;
-
+	//Deberia estar validado en el archivo de entrada pero bue
 		if (dimension < 0)
 			this.dimension = 1;
-		
+		// tam = (dimension^2-dimension)/2
 		tam = (this.dimension * (this.dimension - 1)) / 2; 
-		vectorEquivalente = new boolean[tam]; // Crea el vector Equivalente.
+		// Crea el vector Equivalente.
+		vectorEquivalente = new boolean[tam];
+		//orden = ((1-raiz(1+8*tam))/2)
 		Double aux = ((1 + Math.sqrt(1 + 8 * vectorEquivalente.length)) / 2);
 		orden = aux.intValue();
-		// generarGrafo(45);
 	}
 
 	/**
@@ -60,7 +61,7 @@ public class MatrizSimetrica {
 	public boolean getValor(final int fila,final  int col) {
 		
 		if (fila == col)
-			return true;
+			return false;
 		int i;
 		if (fila > col)
 			i = (col * orden) + fila - ((col * col) + (3 * col) + 2) / 2;
