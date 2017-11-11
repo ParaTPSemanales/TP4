@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class GrafoColor {
 	/** Grafo original **/
-	private Grafo grafoOriginal;
+	private GrafoNDNP grafoOriginal;
 	/** Mapa que asocia numero de grafo con numero de color **/
 	private Map<Integer, Integer> salidaColoreada;
 	private boolean nodosRepetidos;
@@ -27,7 +27,7 @@ public class GrafoColor {
 	public GrafoColor(final String entrada, final String salida) throws IOException {
 		int nodo, color, cantColores, cantNodos;
 		
-		grafoOriginal = new Grafo(entrada);
+		grafoOriginal = new GrafoNDNP (entrada);
 		sc = new Scanner(new File(entrada));
 		 cantColores = sc.nextInt();
 		 cantNodos = sc.nextInt();

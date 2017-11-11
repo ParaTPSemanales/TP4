@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 
-import grafos.Grafo;
+import grafos.GrafoNDNP;
 import resources.GeneradorDeGrafos;
 import resources.GrafoException;
 
@@ -18,13 +18,13 @@ public class App {
     int porcentaje = 50;
     
     PrintWriter salida = new PrintWriter(new FileWriter("Estadisticas/Resumenes/ResumenRegularConAdyacencia" +porcentaje+"_PPOWELL.txt"));
-    Grafo afo = null;
+    GrafoNDNP afo = null;
     salida.println("RESUMEN DE COLORES");
-    long tiempo = System.currentTimeMillis();
+
     for (int i = 0; i < 10; i++) {
          afo = GeneradorDeGrafos.generarGrafoRegularConPorcentajeDeAdyacencia(6, porcentaje);
          if(afo!=null) {
-         	afo.colorear(Grafo.getPowell());
+         	afo.colorear(GrafoNDNP.getPowell());
         	colores[i] = afo.getCantidadColores();
         	if (colores[i] < min){
         		min = colores[i];
@@ -32,22 +32,19 @@ public class App {
         	}
         	salida.println("EJECUCION: " +i+ "COLORES: "+afo.getCantidadColores()); 
          }
+    }
+    
 
-	}
     
    
     System.out.println("minima cantidad de colores: " + min);
     System.out.println("Aparecio por primera vez en la ejecucion: " +posicion);
     if(afo!=null)
     System.out.println("Grado Minimo: " + afo.getGradoMinimo()+ "Grado Maximo: " + afo.getGradoMaximo());
-    long tiempoFinal = System.currentTimeMillis() - tiempo;
-    
-//    long minutos = (tiempoFinal /60) %60 ;
-//    long segundos= (tiempoFinal%60);
-//    System.out.println(minutos + "minutos " + segundos + "segundos" );
-	System.out.println(tiempoFinal);
+ 
+
     salida.close();
 
 }
-	
 }
+	

@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 import resources.GrafoException;
 
-public class Grafo {
+public class GrafoNDNP {
 
 	private static final int SECUENCIAL = 1;
 	private static final int POWELL = 2;
@@ -66,7 +66,7 @@ public class Grafo {
 	 * @param pAdy:
 	 *            Porcentaje de adyacencia necesaria.
 	 */
-	public Grafo(int cantNodos, MatrizSimetrica matrizSim, int cAristas, double pAdy) {
+	public GrafoNDNP(int cantNodos, MatrizSimetrica matrizSim, int cAristas, double pAdy) {
 		this.cantNodos = cantNodos;
 		this.matriz = matrizSim;
 		this.cantAristas = cAristas;
@@ -81,7 +81,7 @@ public class Grafo {
 	 * 
 	 * @param archivo
 	 */
-	public Grafo(String archivo) {
+	public GrafoNDNP (String archivo) {
 		int fila, columna;
 
 		try {

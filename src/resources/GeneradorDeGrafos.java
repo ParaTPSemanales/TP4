@@ -2,7 +2,7 @@ package resources;
 
 import java.util.Random;
 
-import grafos.Grafo;
+import grafos.GrafoNDNP;
 import grafos.MatrizSimetrica;
 
 /**
@@ -19,9 +19,9 @@ public class GeneradorDeGrafos {
 	 * @param cantNodos
 	 * @param porcAdy
 	 * @return
-	 * @throws GrafoException
+	 * @throws GrafoNDNP
 	 */
-	public static Grafo generarGrafoAleatorioConPorcentajeDeAdyacencia(final int cantNodos, final double porcAdy)
+	public static GrafoNDNP generarGrafoNDNPAleatorioConPorcentajeDeAdyacencia(final int cantNodos, final double porcAdy)
 			throws GrafoException {
 		Random r = new Random();
 		MatrizSimetrica matriz = new MatrizSimetrica(cantNodos);
@@ -41,7 +41,7 @@ public class GeneradorDeGrafos {
 
 		double porcAdyReal = (cantAristas * 100) / maxAristas;
 
-		Grafo grafo = new Grafo(cantNodos, matriz, cantAristas, porcAdyReal);
+		GrafoNDNP grafo = new GrafoNDNP(cantNodos, matriz, cantAristas, porcAdyReal);
 		if (grafo.esConexo()) {
 			return grafo;
 		} else {
@@ -55,9 +55,9 @@ public class GeneradorDeGrafos {
 	 * @param cantNodos
 	 * @param probabilidad
 	 * @return
-	 * @throws GrafoException
+	 * @throws GrafoNDNP
 	 */
-	public static Grafo generarGrafoAleatorioConProbabilidad(final int cantNodos, final double probabilidad)
+	public static GrafoNDNP generarGrafoNDNPAleatorioConProbabilidad(final int cantNodos, final double probabilidad)
 			throws GrafoException {
 		Random r = new Random();
 		MatrizSimetrica matriz = new MatrizSimetrica(cantNodos);
@@ -74,7 +74,7 @@ public class GeneradorDeGrafos {
 			}
 		}
 		double porcAdyReal = (cantAristas * 100) / maxAristas;
-		Grafo grafo = new Grafo(cantNodos, matriz, cantAristas, porcAdyReal);
+		GrafoNDNP grafo = new GrafoNDNP(cantNodos, matriz, cantAristas, porcAdyReal);
 		if (grafo.esConexo()) {
 			return grafo;
 		} else {
@@ -88,9 +88,9 @@ public class GeneradorDeGrafos {
 	 * @param cantNodos
 	 * @param grado
 	 * @return
-	 * @throws GrafoInvalidoException
+	 * @throws GrafoNDNPInvalidoException
 	 */
-	public static Grafo generarGrafoRegularGradoN(final int cantNodos, final int grado) throws GrafoException {
+	public static GrafoNDNP generarGrafoRegularGradoN(final int cantNodos, final int grado) throws GrafoException {
 		if (grado >= cantNodos || cantNodos <= 0 || grado < 0)
 			throw new GrafoException("Error en la creacion de un grafo Regular con grado igual a " + grado);
 		MatrizSimetrica matriz = new MatrizSimetrica(cantNodos);
@@ -115,7 +115,7 @@ public class GeneradorDeGrafos {
 			if (grado % 2 == 1)
 				throw new GrafoException();
 		}
-		Grafo g = new Grafo(cantNodos, matriz, cantAristas, (cantAristas * 100) / ((cantNodos * (cantNodos - 1)) / 2));
+		GrafoNDNP g = new GrafoNDNP(cantNodos, matriz, cantAristas, (cantAristas * 100) / ((cantNodos * (cantNodos - 1)) / 2));
 		return g;
 	}
 
@@ -125,22 +125,24 @@ public class GeneradorDeGrafos {
 	 * @param porAdy
 	 * @return
 	 */
-	public static Grafo generarGrafoRegularConPorcentajeDeAdyacencia(final int cantNodos,final int porAdy) {
+
+//	public static GrafoNDNP generarGrafoRegularConPorcentajeDeAdyacencia(final int cantNodos,final int porAdy) {
 //		double grado1 = (porAdy * (cantNodos - 1)) / 100.0;
 //		//Con este nos quedamos
 //		int grado = (int) grado1;
-//		Grafo retorno = null;
+//		GrafoNDNP retorno = null;
 //		if (cantNodos < 1 || grado < 0 || grado >= cantNodos || (cantNodos != 1 && grado == 0)
 //				|| (cantNodos != 2 && grado == 1) || (cantNodos % 2 != 0 && grado % 2 != 0) || (grado -grado1 != 0)) {
 //			System.out.println("no se puede generar el grafo");
 //			return retorno;
 //		}
 		
-		
+	public static GrafoNDNP generarGrafoRegularConPorcentajeDeAdyacencia(final int cantNodos,final int porAdy) {
 		int grado = (porAdy * (cantNodos - 1)) / 100;
-		Grafo retorno = null;
-		if( cantNodos<1 || grado<0 || grado>=cantNodos
-			|| (cantNodos!=1 && grado==0) ||(cantNodos!=2 && grado==1) || (cantNodos%2!=0 && grado%2!=0)) {
+		GrafoNDNP retorno = null;
+		if (cantNodos < 1 || grado < 0 || grado >= cantNodos || (cantNodos != 1 && grado == 0)
+				|| (cantNodos != 2 && grado == 1) || (cantNodos % 2 != 0 && grado % 2 != 0)) {
+
 			System.out.println("no se puede generar el grafo");
 			return retorno;
 		}
@@ -177,9 +179,12 @@ public class GeneradorDeGrafos {
 				saltear++;
 			}
 		}
+
 		
-		
-		retorno = new Grafo(cantNodos, matriz, (cantNodos * grado) / 2, porAdy);
+		retorno = new GrafoNDNP(cantNodos, matriz, (cantNodos * grado) / 2, porAdy);
+
+		retorno = new GrafoNDNP (cantNodos, matriz, (cantNodos * grado) / 2, porAdy);
+
 		return retorno ;
 	}
 
@@ -189,10 +194,10 @@ public class GeneradorDeGrafos {
 	 * @param cantNodos
 	 * @param n
 	 * @return
-	 * @throws GrafoException
+	 * @throws GrafoNDNP
 	 */
 
-	public static Grafo generarGrafoNPartito(final int cantNodos,final int n) throws GrafoException {
+	public static GrafoNDNP generarGrafoNPartito(final int cantNodos,final int n) throws GrafoException {
 		
 		if (cantNodos % n != 0)
 			throw new GrafoException("Error en creacion de grafos");
@@ -210,6 +215,6 @@ public class GeneradorDeGrafos {
 			} else
 				aux = aristasContiguas;
 		}
-		return new Grafo(cantNodos, matriz, cantAristas, (cantAristas * 100) / ((cantNodos * (cantNodos - 1)) / 2));
+		return new GrafoNDNP(cantNodos, matriz, cantAristas, (cantAristas * 100) / ((cantNodos * (cantNodos - 1)) / 2));
 	}
 }
