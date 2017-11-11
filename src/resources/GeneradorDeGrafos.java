@@ -21,7 +21,7 @@ public class GeneradorDeGrafos {
 	 * @return
 	 * @throws GrafoNDNP
 	 */
-	public static GrafoNDNP generarGrafoNDNPAleatorioConPorcentajeDeAdyacencia(final int cantNodos, final double porcAdy)
+	public static GrafoNDNP generarGrafoAleatorioConPorcentajeDeAdyacencia(final int cantNodos, final double porcAdy)
 			throws GrafoException {
 		Random r = new Random();
 		MatrizSimetrica matriz = new MatrizSimetrica(cantNodos);
@@ -57,7 +57,7 @@ public class GeneradorDeGrafos {
 	 * @return
 	 * @throws GrafoNDNP
 	 */
-	public static GrafoNDNP generarGrafoNDNPAleatorioConProbabilidad(final int cantNodos, final double probabilidad)
+	public static GrafoNDNP generarGrafoAleatorioConProbabilidad(final int cantNodos, final double probabilidad)
 			throws GrafoException {
 		Random r = new Random();
 		MatrizSimetrica matriz = new MatrizSimetrica(cantNodos);
@@ -137,8 +137,14 @@ public class GeneradorDeGrafos {
 //			return retorno;
 //		}
 		
-	public static GrafoNDNP generarGrafoRegularConPorcentajeDeAdyacencia(final int cantNodos,final int porAdy) {
-		int grado = (porAdy * (cantNodos - 1)) / 100;
+	public static GrafoNDNP generarGrafoRegularConPorcentajeDeAdyacencia(final int cantNodos, int porAdy) {
+		double gradoReal = (porAdy * (cantNodos - 1)) / 100.0;
+		int grado = (int) gradoReal;
+		double pepe = (grado*porAdy)/gradoReal;
+
+		if(grado - gradoReal != 0) {
+			 pepe = (grado*porAdy)/gradoReal;//Lo redondeamo
+		}
 		GrafoNDNP retorno = null;
 		if (cantNodos < 1 || grado < 0 || grado >= cantNodos || (cantNodos != 1 && grado == 0)
 				|| (cantNodos != 2 && grado == 1) || (cantNodos % 2 != 0 && grado % 2 != 0)) {

@@ -348,7 +348,7 @@ public class GrafoNDNP {
 	 * Se hace un random al listado de nodos para luego colorear.
 	 */
 	public void colorearSecuencial() {
-		Collections.shuffle(nodos);
+		//Collections.shuffle(nodos);
 		colorearSecuencialAlternativo();
 	}
 
@@ -357,7 +357,6 @@ public class GrafoNDNP {
 	 */
 	public void colorearPowell() {
 		ordenarGradoDescendente(nodos, 0, nodos.size() - 1);
-		//mezclarPorGrado();
 		colorearSecuencialAlternativo();
 	}
 
@@ -375,7 +374,7 @@ public class GrafoNDNP {
 	 */
 	public void colorearMatula() {
 		ordenarGradoAscendente(nodos, 0, nodos.size() - 1);
-		mezclarPorGrado();
+		//mezclarPorGrado();
 		colorearSecuencialAlternativo();
 	}
 
@@ -405,7 +404,7 @@ public class GrafoNDNP {
 	/**
 	 * Mezclar el grafo segun el grado
 	 */
-	private void mezclarPorGrado() {
+	public void mezclarPorGrado() {
 		int i = 0;
 		int inicio = 0;
 		int fin = 0;
@@ -559,7 +558,7 @@ public class GrafoNDNP {
 			if (cantColores < nroCromatico) 
 				nroCromatico = cantColores;
 			
-			alterarOrdenNodos();
+			//alterarOrdenNodos();
 		}
 
 
