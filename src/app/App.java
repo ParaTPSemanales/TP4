@@ -26,9 +26,9 @@ public class App {
 		GrafoNDNP afo = null;
 		salida.println("RESUMEN DE COLORES");
 
-		afo = GeneradorDeGrafos.generarGrafoRegularConPorcentajeDeAdyacencia(1000, porcentaje);
+		afo = GeneradorDeGrafos.generarGrafoRegularConPorcentajeDeAdyacencia(10, porcentaje);
 		if (afo != null) {
-			for (int i = 0; i < 10000; i++) {
+			for (int i = 0; i < 100; i++) {
 				afo.mezclarPorGrado();
 
 				afo.colorear(GrafoNDNP.getPowell());
@@ -41,7 +41,7 @@ public class App {
 
 				if (frecuenciaColor.containsKey(afo.getCantidadColores())) {
 					contadorFrec = frecuenciaColor.get(afo.getCantidadColores());
-					frecuenciaColor.put(afo.getCantidadColores(), contadorFrec + 1);
+					frecuenciaColor.replace(afo.getCantidadColores(), contadorFrec + 1);
 				} else {
 					frecuenciaColor.put(afo.getCantidadColores(), 1);
 				}
@@ -50,7 +50,7 @@ public class App {
 			}
 
 			totales.println("TOTALES DE " + nombre + "CON ADY" + porcentaje);
-			frecuenciaColor.forEach((k, v) -> salida.print("Color: " + k + " Cantidad: " + v ));
+			frecuenciaColor.forEach((k, v) -> totales.println("Color: " + k + " Cantidad: " + v ));
 			totales.println( "gradoMax: " +afo.getGradoMaximo());
 		}
 

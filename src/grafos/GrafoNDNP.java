@@ -548,41 +548,19 @@ public class GrafoNDNP {
 	 * @param cod_algoritmo
 	 */
 	public void ejecutarCaso(final String pathCaso, final int cod_algoritmo) {
-		int cantColor[] = new int[cantNodos];
-		int nroCromatico = cantNodos;
-		ArrayList<Nodo> grafoColoreado = new ArrayList<Nodo>();
 
-		for (int i = 0; i < 10; i++) {
-			colorear(cod_algoritmo);
-			cantColor[cantColores] += 1;
-			if (cantColores < nroCromatico) 
-				nroCromatico = cantColores;
-			
-			//alterarOrdenNodos();
 		}
 
 
-	}
+	
+	/**
+	 * Funcion que sirve para grabar cada frecuencia
+	 * @param pathCaso
+	 * @param cod_algoritmo
+	 * @param cantColor
+	 */
+	public void grabarResumenCaso(final String pathCaso, final int cod_algoritmo, final int[] cantColor) {
 
-	public void grabarResumenCaso(final String pathCaso, final int cod_algoritmo, final int[] cantColor,
-			final int nroCromatico) {
-		String pathOUT = "Lote de prueba/" + cod_algoritmo + "_" + pathCaso + "_resumen.txt";
-		PrintWriter salida = null;
-
-		try {
-			salida = new PrintWriter(new FileWriter(pathOUT));
-			salida.println("Algoritmo: " + cod_algoritmo + "    Caso: " + pathCaso);
-			salida.println("NRO CROMATICO: " + nroCromatico);
-			salida.println("CantColores  CantRepeticiones");
-			for (int i = 0; i < cantColor.length; i++) {
-				if (cantColor[i] > 0)
-					salida.println(i + " " + cantColor[i]);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			salida.close();
-		}
 	}
 
 	/**
