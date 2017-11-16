@@ -6,9 +6,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 
+import resources.GeneradorDeGrafos;
 import resources.GrafoException;
 
 public class GrafoNDNP {
@@ -81,7 +83,7 @@ public class GrafoNDNP {
 	 * 
 	 * @param archivo
 	 */
-	public GrafoNDNP (String archivo) {
+	public GrafoNDNP(String archivo) {
 		int fila, columna;
 
 		try {
@@ -146,7 +148,7 @@ public class GrafoNDNP {
 			if (temp > grMax)
 				grMax = temp;
 		}
-		//grMax--;
+		// grMax--;
 		grMin = grMax;
 		for (int f = 0; f < cantNodos; f++) {
 			temp = 0;
@@ -157,8 +159,8 @@ public class GrafoNDNP {
 			if (temp < grMin)
 				grMin = temp;
 		}
-		//grMin--;
-		//System.out.println("GRADOS: \t" + grMax + "\t" + grMin);
+		// grMin--;
+		// System.out.println("GRADOS: \t" + grMax + "\t" + grMin);
 	}
 
 	/**
@@ -333,10 +335,10 @@ public class GrafoNDNP {
 		cantColores = 0;
 		for (int i = 0; i < cantNodos; i++) {
 			color = 1;
-			/** Mientras el color no se pueda usar, elijo otro color**/
-			while (!sePuedeColorear(i, color)) 
+			/** Mientras el color no se pueda usar, elijo otro color **/
+			while (!sePuedeColorear(i, color))
 				color++;
-			
+
 			nodos.get(i).setColor(color);
 
 			if (color > cantColores)
@@ -348,7 +350,7 @@ public class GrafoNDNP {
 	 * Se hace un random al listado de nodos para luego colorear.
 	 */
 	public void colorearSecuencial() {
-		//Collections.shuffle(nodos);
+		// Collections.shuffle(nodos);
 		colorearSecuencialAlternativo();
 	}
 
@@ -374,7 +376,7 @@ public class GrafoNDNP {
 	 */
 	public void colorearMatula() {
 		ordenarGradoAscendente(nodos, 0, nodos.size() - 1);
-		//mezclarPorGrado();
+		// mezclarPorGrado();
 		colorearSecuencialAlternativo();
 	}
 
@@ -391,7 +393,8 @@ public class GrafoNDNP {
 		if (nodos.get(indice).getColor() != 0) // si el nodo fue coloreado
 			sePuede = false;
 		while (i < cantNodos && sePuede) {
-			// Si hay un nodo adyacente con ese color, no se puede colorear. Si el nodo fue coloreado tampoco se puede.
+			// Si hay un nodo adyacente con ese color, no se puede colorear. Si el nodo fue
+			// coloreado tampoco se puede.
 			if (nodos.get(i).getColor() == color && i != indice) {
 				if (esAdyacente(nodos.get(i).getNumero() - 1, nodos.get(indice).getNumero() - 1))
 					sePuede = false;
@@ -412,15 +415,15 @@ public class GrafoNDNP {
 		Nodo aux;
 		Random r = new Random();
 		boolean[] mezclado = new boolean[cantNodos];
-	
+
 		while (i < cantNodos) {
 			inicio = i;
 			grado = nodos.get(i).getGrado();
-			while (i < cantNodos && nodos.get(i).getGrado() == grado) 
+			while (i < cantNodos && nodos.get(i).getGrado() == grado)
 				i++;
-			
+
 			fin = i;
-			
+
 			for (int k = inicio; k < (fin - inicio); k++) {
 				int res = r.nextInt(fin - inicio);
 				if (mezclado[k])
@@ -438,7 +441,7 @@ public class GrafoNDNP {
 	 * metodo que sirve para validar si la mezcla realizada fue correcta
 	 * 
 	 * @return V o F
-	 * @throws GrafoException 
+	 * @throws GrafoException
 	 */
 	private boolean validarMezcla() {
 		int grado = nodos.get(0).getGrado();
@@ -446,7 +449,7 @@ public class GrafoNDNP {
 		for (Nodo n : nodos) {
 			if (n.getGrado() != grado) {
 				if (n.getGrado() < grado) {
-					System.err.println("Error en la mezcla del grafo"); 
+					System.err.println("Error en la mezcla del grafo");
 					System.exit(4321);
 				} else
 					grado = n.getGrado();
@@ -521,7 +524,6 @@ public class GrafoNDNP {
 
 	}
 
-
 	/**
 	 * Que tipo de coloreo se requiere
 	 * 
@@ -542,26 +544,64 @@ public class GrafoNDNP {
 	}
 
 	/**
-	 * Ejecucion de caso
+	 * Ejecucion de caso. Metodo estatico
 	 * 
 	 * @param pathCaso
 	 * @param cod_algoritmo
 	 */
-	public void ejecutarCaso(final String pathCaso, final int cod_algoritmo) {
+	public static void ejecutarCaso(final String pathCaso, final String totalFrec, final int cod_algoritmo,
+			final int porcentaje, final String nombre, final int cantidadEjecuciones, final int cantidadNodos) {
+		int[] colores = new int[10000];
+		int min = Integer.MAX_VALUE, posicion = 0;
+		int contadorFrec;
+		
+		try {
+		PrintWriter salida = new PrintWriter(new FileWriter(pathCaso));
+		PrintWriter totales = new PrintWriter(new FileWriter(totalFrec));
+		HashMap<Integer, Integer> frecuenciaColor = new HashMap<Integer, Integer>();
+		GrafoNDNP afo = null;
+		salida.println("RESUMEN DE COLORES");
 
+		afo = GeneradorDeGrafos.generarGrafoRegularConPorcentajeDeAdyacencia(cantidadNodos, porcentaje);
+		if (afo != null) {
+			for (int i = 0; i < cantidadEjecuciones; i++) {
+				afo.mezclarPorGrado();
+
+				afo.colorear(GrafoNDNP.getPowell());
+				colores[i] = afo.getCantidadColores();
+				if (colores[i] < min) {
+					min = colores[i];
+					posicion = i + 1;
+				}
+				salida.println("EJECUCION:  " + i + "COLORES:  " + afo.getCantidadColores());
+
+				if (frecuenciaColor.containsKey(afo.getCantidadColores())) {
+					contadorFrec = frecuenciaColor.get(afo.getCantidadColores());
+					frecuenciaColor.replace(afo.getCantidadColores(), contadorFrec + 1);
+				} else {
+					frecuenciaColor.put(afo.getCantidadColores(), 1);
+				}
+
+				afo.despintarGrafo();
+			}
+
+			totales.println("TOTALES DE " + nombre + "CON ADY" + porcentaje);
+			frecuenciaColor.forEach((k, v) -> totales.println("Color: " + k + " Cantidad: " + v));
+			totales.println("gradoMax: " + afo.getGradoMaximo());
 		}
 
+		System.out.println("minima cantidad de colores: " + min);
+		System.out.println("Aparecio por primera vez en la ejecucion: " + posicion);
+		if (afo != null)
+			System.out.println("Grado Minimo: " + afo.getGradoMinimo() + "Grado Maximo: " + afo.getGradoMaximo());
 
-	
-	/**
-	 * Funcion que sirve para grabar cada frecuencia
-	 * @param pathCaso
-	 * @param cod_algoritmo
-	 * @param cantColor
-	 */
-	public void grabarResumenCaso(final String pathCaso, final int cod_algoritmo, final int[] cantColor) {
-
+		salida.close();
+		totales.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
+
 
 	/**
 	 * metodo para guardar el archivo.
@@ -604,8 +644,5 @@ public class GrafoNDNP {
 	public static int getMatula() {
 		return MATULA;
 	}
-	
-	
-	
-	
+
 }
