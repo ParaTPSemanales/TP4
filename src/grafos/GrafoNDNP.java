@@ -549,8 +549,8 @@ public class GrafoNDNP {
 	 * @param pathCaso
 	 * @param cod_algoritmo
 	 */
-	public static void ejecutarCaso(final String pathCaso, final String totalFrec, final int cod_algoritmo,
-			final int porcentaje, final String nombre, final int cantidadEjecuciones, final int cantidadNodos) {
+	public static void ejecutarCaso(final String pathCaso, final String totalFrec, final int codigoAlgoritmo,
+			final int porcentaje, final String nombre, final int cantidadEjecuciones,  GrafoNDNP afo) {
 		int[] colores = new int[10000];
 		int min = Integer.MAX_VALUE, posicion = 0;
 		int contadorFrec;
@@ -559,15 +559,14 @@ public class GrafoNDNP {
 		PrintWriter salida = new PrintWriter(new FileWriter(pathCaso));
 		PrintWriter totales = new PrintWriter(new FileWriter(totalFrec));
 		HashMap<Integer, Integer> frecuenciaColor = new HashMap<Integer, Integer>();
-		GrafoNDNP afo = null;
 		salida.println("RESUMEN DE COLORES");
 
-		afo = GeneradorDeGrafos.generarGrafoRegularConPorcentajeDeAdyacencia(cantidadNodos, porcentaje);
 		if (afo != null) {
 			for (int i = 0; i < cantidadEjecuciones; i++) {
+				afo.alterarOrdenNodos();
 				afo.mezclarPorGrado();
-
-				afo.colorear(GrafoNDNP.getPowell());
+				
+				afo.colorear(codigoAlgoritmo);
 				colores[i] = afo.getCantidadColores();
 				if (colores[i] < min) {
 					min = colores[i];
@@ -586,10 +585,11 @@ public class GrafoNDNP {
 			}
 
 			totales.println("TOTALES DE " + nombre + "CON ADY" + porcentaje);
-			frecuenciaColor.forEach((k, v) -> totales.println("Color: " + k + " Cantidad: " + v));
+			totales.println("COLOR CANTIDAD");
+			frecuenciaColor.forEach((k, v) -> totales.println(k + " " + v));
 			totales.println("gradoMax: " + afo.getGradoMaximo());
 		}
-
+		System.out.println(nombre);
 		System.out.println("minima cantidad de colores: " + min);
 		System.out.println("Aparecio por primera vez en la ejecucion: " + posicion);
 		if (afo != null)
