@@ -16,7 +16,7 @@ public class App {
 		String powell = "Powell", matula ="Matula", secuencial = "Secuencial";
 		int cantidadNodos = 1000;
 		int ejecuciones = 10000;
-		int porcentaje = 75;
+		int porcentaje = 50;
 		String pathCasoPowell = "Estadisticas/Resumenes/ResumenRegularConAdyacencia" + porcentaje + "_" + powell + ".in";
 		String PathTotalesPowell = "Estadisticas/Totales/ResumenRegularConAdyacencia" + porcentaje + "_" + powell + ".in";
 		

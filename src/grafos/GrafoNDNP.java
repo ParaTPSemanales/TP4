@@ -564,6 +564,8 @@ public class GrafoNDNP {
 		if (afo != null) {
 			for (int i = 0; i < cantidadEjecuciones; i++) {
 				afo.alterarOrdenNodos();
+				
+				
 				afo.mezclarPorGrado();
 				
 				afo.colorear(codigoAlgoritmo);
