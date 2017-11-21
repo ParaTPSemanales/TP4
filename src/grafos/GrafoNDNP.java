@@ -148,7 +148,6 @@ public class GrafoNDNP {
 			if (temp > grMax)
 				grMax = temp;
 		}
-		// grMax--;
 		grMin = grMax;
 		for (int f = 0; f < cantNodos; f++) {
 			temp = 0;
@@ -159,8 +158,7 @@ public class GrafoNDNP {
 			if (temp < grMin)
 				grMin = temp;
 		}
-		// grMin--;
-		// System.out.println("GRADOS: \t" + grMax + "\t" + grMin);
+		
 	}
 
 	/**
